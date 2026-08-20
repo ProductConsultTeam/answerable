@@ -135,6 +135,24 @@ class Patterns(unittest.TestCase):
                    ["We offer a consultation at our standard hourly rate",
                     "Free parking is available for clients"])
 
+    def test_a_page_heading_is_not_an_answer_about_who_acts_for_you(self):
+        # "Legal Services From Our Solicitors" scored a point on a real firm
+        # before this was tightened. It is a banner, not an answer.
+        self.check("legal", "who",
+                   ["Meet our team", "Our solicitors are all STEP qualified",
+                    "Head of Family"],
+                   ["Legal Services From Our Solicitors",
+                    "Our partners in the local community"])
+
+    def test_a_form_label_is_not_an_answer_about_remote_working(self):
+        # "If you prefer not to be contacted by telephone, leave this section
+        # blank" matched the old pattern. It is a contact form, not a policy.
+        self.check("legal", "remote",
+                   ["We offer appointments by video or telephone",
+                    "Home visits can be arranged"],
+                   ["If you prefer not to be contacted by telephone, "
+                    "leave this section blank"])
+
     def test_out_of_hours_is_the_question_a_worried_owner_asks(self):
         self.check("veterinary", "emergency",
                    ["Our out of hours service is provided by Vets Now",

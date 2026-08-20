@@ -23,7 +23,9 @@ questions:
 
   - key: fees
     question: What will it cost?
-    pattern: '(£\s?\d|\bfixed fee|\bour (fees|charges|pricing)|\bhourly rate|\bfee (estimate|structure|guide)|\bprice transparency|\bno win,? no fee)'
+    # "No win no fee" answers how charging works, not what it costs, so it
+    # belongs to fee_basis alone. Otherwise one line settles two questions.
+    pattern: '(£\s?\d|\bfixed fee|\bour (fees|charges|pricing)|\bhourly rate|\bfee (estimate|structure|guide)|\bprice transparency)'
 
   - key: fee_basis
     question: How am I charged, fixed fee or by the hour?
@@ -51,7 +53,9 @@ questions:
 
   - key: who
     question: Who would be handling my matter?
-    pattern: '\b(meet the team|our (people|team|solicitors|lawyers)|partners?\b|associate|head of (department|family|employment)|your (solicitor|case handler))\b'
+    # "Legal Services From Our Solicitors" is a page heading, not an answer to
+    # who would be handling the matter, so bare "our solicitors" is out.
+    pattern: '\b(meet (the|our) team|our (team|people)\b|our (solicitors|lawyers|partners) (are|include|have)|head of (department|family|employment|litigation|conveyancing)|your (solicitor|case handler|matter) will be)\b'
 
   - key: complaints
     question: What if I am unhappy with the service?
@@ -59,7 +63,9 @@ questions:
 
   - key: remote
     question: Do I have to come to the office?
-    pattern: '\b(remote(ly)?|by (video|telephone|phone|zoom|teams)|home visits?|virtual (appointment|meeting)|we can meet|nationwide|by post and email)\b'
+    # "If you prefer not to be contacted by telephone" is a form label. The
+    # question needs a statement about where the work happens.
+    pattern: '\b(remote(ly)? (advice|meetings?|appointments?)|(advice|appointments?|meetings?|consultations?) (by|over) (video|telephone|phone|zoom|teams)|by (video|telephone) (call|link|conference)|home visits?|virtual (appointment|meeting|consultation)|we can (visit|come to) you|act for clients (nationwide|across|throughout)|entirely by post and email|(do not|dont|never) need to (visit|come to|attend))\b'
 
   - key: area
     question: Do you act for people in my area?
@@ -67,7 +73,7 @@ questions:
 
   - key: emergency
     question: What if it is urgent?
-    pattern: '\b(urgent(ly)?|out of hours|emergency (advice|injunction|line|number)|same.?day (advice|appointment)|24/?7)\b'
+    pattern: '\b(urgent (advice|matters?|cases?|applications?|injunctions?|help)|out of hours|emergency (advice|injunction|line|number|contact)|same.?day (advice|appointment)|24/?7)\b'
 
   - key: docs
     question: What do I need to bring or send?

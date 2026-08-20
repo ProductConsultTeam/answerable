@@ -70,7 +70,7 @@ questions:
 
   - key: children
     question: Do you see children?
-    pattern: '\b(children|child(ren)?.s (dentistry|appointments?)|paediatric|kids|under 18|family (practice|dentistry)|from age)\b'
+    pattern: '\b(child(ren)?.s (dentistry|dental|appointments?|check.?ups?)|we (see|treat|welcome) children|children (are )?welcome|for children|paediatric|under 18s?|family (practice|dentistry)|from (the )?age of)\b'
 
   - key: parking
     question: Where do I park?
