@@ -1,0 +1,86 @@
+name: Veterinary practice
+description: >
+  What an owner needs from a vet website, weighted towards the two moments
+  that actually drive a phone call: an animal that is ill right now, and the
+  question of what treatment is going to cost.
+
+questions:
+  - key: hours
+    kind: hours
+    question: When are you open?
+
+  - key: phone
+    question: How do I phone you?
+    pattern: '(?:\+44\s?|\b0)(?:\d\s?){9,10}\d'
+
+  - key: address
+    question: Where are you?
+    pattern: '[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}'
+
+  - key: emergency
+    question: What do I do out of hours in an emergency?
+    pattern: '\b(out of hours|emergency (service|cover|vet|care|appointments?|number)|24.?hour|overnight (care|cover)|vets ?now|if your (pet|animal) (is|needs))\b'
+
+  - key: emergency_where
+    question: Where do I take my animal out of hours?
+    pattern: '\b(out of hours (service|care) is provided|our out of hours (partner|provider)|taken to|please (call|attend|go to).{0,40}(hospital|clinic)|vets ?now)\b'
+
+  - key: new_clients
+    question: Are you taking new clients?
+    pattern: '\b(new (clients?|patients?|registrations?) (are )?(welcome|accepted)|(register|registering) (your|new)|not (currently )?(taking|accepting) new|how to register)\b'
+
+  - key: species
+    question: Do you treat my kind of animal?
+    pattern: '\b(dogs? and cats?|small animals?|exotics?|rabbits?|reptiles?|equine|horses?|farm animals?|livestock|small (furries|pets)|avian)\b'
+
+  - key: prices
+    question: What does it cost?
+    pattern: '(£\s?\d|\bfrom £|\bprice list\b|\bour (prices|fees)\b|\bconsultation fee\b|\bfee guide\b)'
+
+  - key: health_plan
+    question: Do you have a health plan?
+    pattern: '\b(health(care)? (plan|club)|pet (health )?plan|monthly plan|membership|spread the cost|preventative plan)\b'
+
+  - key: insurance
+    question: Do you deal with insurance?
+    pattern: '\b(insurance (claims?|companies|direct)|direct claims?|we can claim directly|insured|claim form|pet insurance)\b'
+
+  - key: payment
+    question: How do I pay?
+    pattern: '\b(payment (is|due|on the day|methods|options)|we accept (card|cash)|settle(d)? (at|on) the (time|day)|payment plan|finance)\b'
+
+  - key: services
+    question: What do you offer?
+    pattern: '\b(our services|vaccinations?|neutering|spay|microchip|dental(s| care| work)|surgery|x.?ray|ultrasound|consultations?|nurse clinics?)\b'
+
+  - key: team
+    question: Who are the vets?
+    pattern: '\b(meet the team|our (vets?|team|nurses)|mrcvs|bvsc|bvetmed|rcvs (registered|number)|clinical director)\b'
+
+  - key: accreditation
+    question: Are you accredited?
+    pattern: '\b(rcvs (accredited|practice standards)|practice standards scheme|iso ?900\d|cat friendly clinic|isfm|accredited)\b'
+
+  - key: repeat_meds
+    question: How do I get repeat medication?
+    pattern: '\b(repeat (prescription|medication)s?|prescription request|order (medication|food|repeat)|written prescription|dispensing)\b'
+
+  - key: parking
+    question: Where do I park?
+    pattern: '\b(parking|car park|on-?site parking|park (on|in|at) the)\b'
+
+  - key: home_visits
+    question: Do you do home visits?
+    pattern: '\b(home visits?|we can visit|visiting service|house (call|visit)|at your (home|yard|farm)|farm visits?)\b'
+
+  - key: euthanasia
+    question: What are the end of life options?
+    pattern: '\b(euthanasia|put to sleep|end of life|cremation|saying goodbye|bereavement|pet loss)\b'
+
+  - key: booking
+    question: How do I book?
+    pattern: '\b(book (online|now|an appointment)|request an appointment|online booking|appointment request|call (us )?to book|contact form)\b'
+
+  - key: waiting
+    question: How soon can I be seen?
+    pattern: '\b(same.?day appointments?|seen (today|the same day)|next available|within \d+ (hours|days)|urgent appointments?|triage)\b'

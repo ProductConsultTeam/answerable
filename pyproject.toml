@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "answerable"
+version = "0.1.0"
+description = "Check what a customer can actually find out from a website."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [{ name = "Product Consult" }]
+keywords = ["seo", "aeo", "geo", "audit", "crawler", "faq", "small business"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+]
+# One dependency, on purpose. The crawler is urllib and the scorer is re, so
+# the only thing that is not in the standard library is the YAML the question
+# banks are written in.
+dependencies = ["PyYAML>=5.1"]
+
+[project.urls]
+Homepage = "https://github.com/ProductConsultTeam/answerable"
+Source = "https://github.com/ProductConsultTeam/answerable"
+
+[project.scripts]
+answerable = "answerable.cli:main"
+
+[tool.setuptools]
+packages = ["answerable"]
+
+[tool.setuptools.package-data]
+answerable = ["banks/*.yml"]

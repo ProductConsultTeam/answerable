@@ -1,0 +1,86 @@
+name: Law firm
+description: >
+  What someone with a legal problem needs to know before they will phone a
+  firm. Cost and first-step questions dominate: the caller is usually deciding
+  whether they can afford to ask at all.
+
+questions:
+  - key: hours
+    kind: hours
+    question: When are you open?
+
+  - key: phone
+    question: How do I phone you?
+    pattern: '(?:\+44\s?|\b0)(?:\d\s?){9,10}\d'
+
+  - key: address
+    question: Where are you?
+    pattern: '[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}'
+
+  - key: practice_areas
+    question: Do you handle my kind of matter?
+    pattern: '\b(our services|areas of (law|practice)|we (specialise|advise|act) in|conveyancing|family law|employment law|wills? (and|&) probate|personal injury|dispute resolution|commercial (property|law)|litigation)\b'
+
+  - key: fees
+    question: What will it cost?
+    pattern: '(£\s?\d|\bfixed fee|\bour (fees|charges|pricing)|\bhourly rate|\bfee (estimate|structure|guide)|\bprice transparency|\bno win,? no fee)'
+
+  - key: fee_basis
+    question: How am I charged, fixed fee or by the hour?
+    pattern: '\b(fixed fee|hourly rate|charged? (at|by the hour)|no win,? no fee|conditional fee|damages.based|cfa\b|our rates are)\b'
+
+  - key: free_first
+    question: Is the first conversation free?
+    pattern: '\b(free (initial )?(consultation|advice|chat|call|assessment|half hour|meeting)|(first|initial) (consultation|meeting|call|appointment|half hour|30 minutes?) is free|no (charge|obligation|cost) (for|to)|complimentary consultation|without charge or obligation)\b'
+
+  - key: first_step
+    question: What happens when I get in touch?
+    pattern: '\b(what happens next|the (first|next) step|we will (then|call|contact|arrange)|initial (call|meeting|consultation)|how we work|our process)\b'
+
+  - key: legal_aid
+    question: Do you do legal aid?
+    pattern: '\b(legal aid|publicly funded|legal help|we do not offer legal aid|not a legal aid)\b'
+
+  - key: timescales
+    question: How long will it take?
+    pattern: '\b(how long|typically takes|timescales?|within \d+ (days|weeks|months)|average (time|completion)|turnaround|lead time)\b'
+
+  - key: regulation
+    question: Are you regulated?
+    pattern: '\b(sra (number|no|id|regulated|authorised)|solicitors regulation authority|regulated by the|cilex|council for licensed conveyancers|lexcel|law society)\b'
+
+  - key: who
+    question: Who would be handling my matter?
+    pattern: '\b(meet the team|our (people|team|solicitors|lawyers)|partners?\b|associate|head of (department|family|employment)|your (solicitor|case handler))\b'
+
+  - key: complaints
+    question: What if I am unhappy with the service?
+    pattern: '\b(complaints? (policy|procedure|process|handling)|legal ombudsman|if you are (unhappy|dissatisfied)|raise a concern)\b'
+
+  - key: remote
+    question: Do I have to come to the office?
+    pattern: '\b(remote(ly)?|by (video|telephone|phone|zoom|teams)|home visits?|virtual (appointment|meeting)|we can meet|nationwide|by post and email)\b'
+
+  - key: area
+    question: Do you act for people in my area?
+    pattern: '\b(areas we cover|we act for clients (across|throughout)|nationwide|throughout (the uk|england)|serving|our offices in)\b'
+
+  - key: emergency
+    question: What if it is urgent?
+    pattern: '\b(urgent(ly)?|out of hours|emergency (advice|injunction|line|number)|same.?day (advice|appointment)|24/?7)\b'
+
+  - key: docs
+    question: What do I need to bring or send?
+    pattern: '\b(what (you.ll|you will) need|please bring|documents? (we|you) (need|require)|proof of (id|identity|address)|id (check|requirements))\b'
+
+  - key: payment
+    question: How and when do I pay?
+    pattern: '\b(payment (on account|options|methods|terms)|we accept (card|bank transfer)|invoiced?|paid on completion|deposit|instalments?)\b'
+
+  - key: booking
+    question: How do I get in touch?
+    pattern: '\b(contact form|request a call|book (a|an) (call|appointment|consultation)|enquiry form|get in touch|make an enquiry)\b'
+
+  - key: reviews
+    question: What do other clients say?
+    pattern: '\b(client (reviews|testimonials|feedback)|what our clients say|review\.?s? on (google|trustpilot|reviewsolicitors)|case studies)\b'

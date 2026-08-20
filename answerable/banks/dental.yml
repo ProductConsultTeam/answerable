@@ -1,0 +1,89 @@
+name: Dental practice
+description: >
+  The twenty questions callers actually ask a UK dental practice. Taken from
+  what receptionists get asked, not from what practices choose to publish.
+  The two that matter most, and that most sites do not answer, are whether the
+  practice is taking new patients and what anything costs.
+
+questions:
+  - key: hours
+    kind: hours
+    question: When are you open?
+
+  - key: phone
+    question: How do I phone you?
+    pattern: '(?:\+44\s?|\b0)(?:\d\s?){9,10}\d'
+
+  - key: address
+    question: Where are you?
+    pattern: '[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}'
+
+  - key: new_patients
+    question: Are you taking new patients?
+    # "patients" alone is on every dental page ever written. The question is
+    # settled only by a statement about accepting them, or a waiting list.
+    pattern: '\b(new patients? (are )?(welcome|accepted)|(accepting|taking|registering) new patients|not (currently )?(accepting|taking) new patients|waiting list|closed to new patients|register (with us|as a (new )?patient))\b'
+
+  - key: nhs_private
+    question: Are you NHS or private?
+    pattern: '\b(nhs (patients?|treatment|dentistry|places|charges|band)|private (only|practice|patients?|fees)|both nhs and private|we are a private)\b'
+
+  - key: nhs_availability
+    question: Do you have NHS places available?
+    pattern: '\b(nhs (places|spaces|appointments) (are )?(available|unavailable)|no nhs (places|availability)|nhs list (is )?(open|closed)|not taking (on )?nhs)\b'
+
+  - key: prices
+    question: What does treatment cost?
+    pattern: '(£\s?\d|\bfrom £|\bprice list\b|\bour (prices|fees)\b|\bband [123]\b|\bfee guide\b)'
+
+  - key: emergency
+    question: What do I do in a dental emergency?
+    pattern: '\b(dental emergenc|emergency (appointment|dentist|dental|slot|line)|toothache|in pain|out of hours|same.day emergency|111)\b'
+
+  - key: emergency_same_day
+    question: Can I be seen the same day?
+    pattern: '\b(same.?day (appointment|emergency|treatment)|seen (on the )?same day|emergency (appointments? )?(daily|every day)|we (aim to|will) see you (that|the same) day)\b'
+
+  - key: registration
+    question: How do I register?
+    pattern: '\b(how to register|registration (form|process)|to register|new patient (form|examination|consultation)|join (the )?practice)\b'
+
+  - key: treatments
+    question: What treatments do you offer?
+    pattern: '\b(treatments? (we|include|offered|available)|our treatments|general dentistry|hygienist|check.?up|implants?|orthodontic|invisalign|whitening|veneers?|root canal|extraction)\b'
+
+  - key: payment_plans
+    question: Can I spread the cost?
+    pattern: '\b(payment plan|dental plan|denplan|finance (available|options)|0% (apr|interest|finance)|spread the cost|monthly (plan|payments?)|membership plan)\b'
+
+  - key: payment_methods
+    question: How do I pay?
+    pattern: '\b(we accept (card|cash|visa|mastercard|most)|payment (is|due|methods?|options)|card payments?|apple pay)\b'
+
+  - key: cancellation
+    question: What happens if I cancel or miss an appointment?
+    pattern: '\b(cancellation (policy|fee|charge)|missed appointment|failed to attend|fta|(24|48) hours.{0,20}notice|short notice)\b'
+
+  - key: nervous
+    question: What if I am nervous about the dentist?
+    pattern: '\b(nervous patients?|dental (anxiety|phobia)|anxious patients?|sedation|we understand.{0,30}(nervous|anxious)|gentle)\b'
+
+  - key: children
+    question: Do you see children?
+    pattern: '\b(children|child(ren)?.s (dentistry|appointments?)|paediatric|kids|under 18|family (practice|dentistry)|from age)\b'
+
+  - key: parking
+    question: Where do I park?
+    pattern: '\b(parking|car park|nearest (station|tube)|on-?site parking|park (on|in) the)\b'
+
+  - key: access
+    question: Can I get in with a wheelchair or a pushchair?
+    pattern: '\b(wheelchair|step.?free|disabled access|ground floor|accessible (entrance|surgery|practice)|ramp|lift)\b'
+
+  - key: team
+    question: Who would be treating me?
+    pattern: '\b(meet the team|our (dentists?|team|clinicians)|gdc (number|no)|bds\b|principal dentist)\b'
+
+  - key: booking
+    question: How do I book?
+    pattern: '\b(book (online|now|an appointment)|request an appointment|appointment request|online booking|contact form|call (us )?to book)\b'

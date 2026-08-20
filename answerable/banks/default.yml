@@ -1,0 +1,65 @@
+name: Any business
+description: >
+  Questions almost every visitor to a small business website is trying to
+  answer. If a site cannot settle these, an answer engine cannot either.
+
+questions:
+  - key: hours
+    kind: hours
+    question: When are you open?
+
+  - key: phone
+    question: How do I phone you?
+    pattern: '(?:\+44\s?|\b0)(?:\d\s?){9,10}\d'
+
+  - key: email
+    question: How do I email you?
+    pattern: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+
+  - key: address
+    question: Where are you?
+    pattern: '[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}'
+
+  - key: prices
+    question: What does it cost?
+    pattern: '(£\s?\d|\bfrom £|\bprice list\b|\bour (prices|fees)\b|\bfee[s]? (start|from)\b)'
+
+  - key: services
+    question: What exactly do you do?
+    pattern: '\b(our services|what we (do|offer)|services include|we (provide|offer|specialise))\b'
+
+  - key: booking
+    question: How do I book or get in touch?
+    pattern: '\b(book (online|now|an appointment)|request a (call|quote|appointment)|contact form|get a quote|enquiry form)\b'
+
+  - key: hours_out
+    question: What happens outside working hours?
+    pattern: '\b(out of hours|24/?7|emergency (line|number|service)|after hours)\b'
+
+  - key: who
+    question: Who would I be dealing with?
+    pattern: '\b(meet the team|our team|our people|founded by|our (director|partners))\b'
+
+  - key: area
+    question: Do you cover my area?
+    pattern: '\b(areas we cover|we cover|serving|catchment|nationwide|across the (uk|country)|within \d+ miles)\b'
+
+  - key: payment
+    question: How do I pay, and can I spread it?
+    pattern: '\b(payment plan|finance (available|options)|spread the cost|0% (apr|interest)|we accept (card|most major))\b'
+
+  - key: accreditation
+    question: Are you accredited or regulated?
+    pattern: '\b(iso ?900\d|registered with|regulated by|accredited|member of the|chas|safecontractor|companies house|company (number|no\.?) ?\d)\b'
+
+  - key: leadtime
+    question: How soon can you do it?
+    pattern: '\b(same day|next day|within \d+ (hours|days|weeks)|lead time|typical(ly)? takes|turnaround)\b'
+
+  - key: guarantee
+    question: What happens if it goes wrong?
+    pattern: '\b(guarantee|warranty|refund|complaints? (policy|procedure)|if you are not (happy|satisfied))\b'
+
+  - key: parking
+    question: Where do I park?
+    pattern: '\b(parking|car park|nearest (station|tube)|on-?site parking)\b'
