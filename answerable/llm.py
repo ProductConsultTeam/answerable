@@ -48,7 +48,6 @@ def _post(key, payload, timeout=45):
         headers={
             "Authorization": "Bearer " + key,
             "Content-Type": "application/json",
-            # OpenRouter uses these for attribution on free models.
             "HTTP-Referer": "https://productconsult.com",
             "X-Title": "answerable",
         })

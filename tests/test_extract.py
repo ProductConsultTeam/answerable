@@ -85,6 +85,11 @@ class OwnVoice(unittest.TestCase):
             "Since qualifying, he has worked in both NHS and private practices",
             "She has a special interest in nervous patients",
             "He provides implants and cosmetic dentistry",
+            # A bio that names the firm is still a bio. This one was quoted as
+            # the answer to which animals a veterinary group treats.
+            "Philippa joined the Goddard Group in 1999 and has seen it grow",
+            "Sam joined the practice in 2014",
+            "They have worked in both small animal and equine practice",
         ]
         for b in bios:
             self.assertFalse(extract.is_own_voice(b), b)
@@ -97,6 +102,18 @@ class OwnVoice(unittest.TestCase):
         ]
         for k in keep:
             self.assertTrue(extract.is_own_voice(k), k)
+
+    def test_a_credential_string_is_not_a_statement_about_the_business(self):
+        # This exact line was quoted as the answer to which animals a
+        # veterinary group treats, because the qualification happens to
+        # contain the words "Small Animal".
+        self.assertFalse(extract.is_own_voice(
+            "John Kidman BVSc MANZCVS(Small Animal Dentistry) MRCVS"))
+
+    def test_one_post_nominal_is_still_the_business_talking(self):
+        # "All our vets are MRCVS registered" is a claim the practice makes.
+        # Only a pile of them means a named person's qualifications.
+        self.assertTrue(extract.is_own_voice("All our vets are MRCVS registered"))
 
     def test_mojibake_is_rejected(self):
         self.assertFalse(extract.is_own_voice("We are open Monday â€“ Friday"))

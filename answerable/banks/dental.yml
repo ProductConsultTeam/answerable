@@ -82,7 +82,10 @@ questions:
 
   - key: team
     question: Who would be treating me?
-    pattern: '\b(meet the team|our (dentists?|team|clinicians)|gdc (number|no)|bds\b|principal dentist)\b'
+    # A passing "our vets" or "our clinicians" mid-sentence is not an answer;
+    # "There's nothing we love more than sharing the stories of our vets"
+    # scored a point on a real site. The answer is a roster, not a mention.
+    pattern: '\b(meet (the|our) (team|dentists|clinicians)|our (team|dentists?|clinicians) (are|include|have|hold)|our dental team|the team at|principal dentist|associate dentist|gdc (number|no))\b'
 
   - key: booking
     question: How do I book?

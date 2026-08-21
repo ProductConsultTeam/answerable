@@ -43,12 +43,33 @@ class Verdict(object):
                 "why": self.why}
 
 
-def _match(pattern, lines):
+def _snippet(line, m, window):
+    """Show the part of the line that matched, not its first 140 characters.
+
+    A long paragraph whose match sits at character 380 reads, truncated from
+    the left, as evidence for something else entirely. The whole point of
+    printing evidence is that a reader can check it against the question.
+    """
+    if len(line) <= window:
+        return line
+    pad = max(0, (window - (m.end() - m.start())) // 2)
+    end = min(len(line), max(m.end() + pad, window))
+    start = max(0, end - window)
+    out = line[start:end].strip()
+    if start > 0:
+        out = "... " + out
+    if end < len(line):
+        out = out + " ..."
+    return out
+
+
+def _match(pattern, lines, window=140):
     """First line the business itself wrote that satisfies the pattern."""
     rx = re.compile(pattern, re.I)
     for line in lines:
-        if rx.search(line):
-            return line
+        m = rx.search(line)
+        if m:
+            return _snippet(line, m, window)
     return ""
 
 

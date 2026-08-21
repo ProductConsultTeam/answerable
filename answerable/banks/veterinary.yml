@@ -55,7 +55,7 @@ questions:
 
   - key: team
     question: Who are the vets?
-    pattern: '\b(meet the team|our (vets?|team|nurses)|mrcvs|bvsc|bvetmed|rcvs (registered|number)|clinical director)\b'
+    pattern: '\b(meet (the|our) (team|vets|nurses)|our (team|vets?|nurses) (are|include|have|hold)|our (veterinary|clinical) team|the team at|clinical director|head vet|rcvs (registered|number))\b'
 
   - key: accreditation
     question: Are you accredited?

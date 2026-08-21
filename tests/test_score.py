@@ -39,6 +39,24 @@ class Verdicts(unittest.TestCase):
         self.assertEqual(prices.status, score.MISSING)
 
 
+class Evidence(unittest.TestCase):
+    def test_the_snippet_contains_what_matched(self):
+        # A long paragraph whose match sits near the end read, truncated from
+        # the left, as evidence for something else entirely.
+        line = ("We are a family practice and have been part of this town for "
+                "many years, with a waiting room that we hope feels calm. " * 3
+                + "Free parking is available at the rear.")
+        v = score.score(site(lines=[line]), BANK)
+        parking = [x for x in v if x.key == "parking"][0]
+        self.assertIn("parking", parking.evidence.lower())
+        self.assertLess(len(parking.evidence), len(line))
+
+    def test_a_short_line_is_quoted_whole(self):
+        v = score.score(site(lines=["Free parking at the rear"]), BANK)
+        parking = [x for x in v if x.key == "parking"][0]
+        self.assertEqual(parking.evidence, "Free parking at the rear")
+
+
 class Unreadable(unittest.TestCase):
     def test_an_unread_site_scores_nothing_rather_than_zero(self):
         # 432 of the 1,606 law firm sites this came from, 27%, refused
@@ -152,6 +170,21 @@ class Patterns(unittest.TestCase):
                     "Home visits can be arranged"],
                    ["If you prefer not to be contacted by telephone, "
                     "leave this section blank"])
+
+    def test_a_passing_mention_of_the_team_is_not_a_roster(self):
+        # "There's nothing we love more than sharing the stories of our vets"
+        # scored the team question on a real practice site. Same class of bug
+        # as the legal `who` banner.
+        self.check("veterinary", "team",
+                   ["Meet our team", "Our vets are all RCVS registered",
+                    "Our clinical director has been here since 2004"],
+                   ["There is nothing we love more than sharing the stories "
+                    "of our vets, our pets and the people who bring them in"])
+
+    def test_the_same_holds_for_a_dental_roster(self):
+        self.check("dental", "team",
+                   ["Meet our team", "Our dentists hold GDC registration"],
+                   ["We are proud of our clinicians and the care they give"])
 
     def test_out_of_hours_is_the_question_a_worried_owner_asks(self):
         self.check("veterinary", "emergency",

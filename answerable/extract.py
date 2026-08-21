@@ -63,7 +63,35 @@ BIO = re.compile(
     r"\b(since qualifying|graduated|qualified (in|from|at)|his career|"
     r"her career|he (has|is|provides|offers|works|treats)|"
     r"she (has|is|provides|offers|works|treats)|completed (his|her)|"
-    r"trained at|joined (us|the (practice|team|firm))))", re.I)
+    r"trained at|"
+    # "Philippa joined the Goddard Group in 1999" is a staff biography, and the
+    # earlier list only knew "joined the practice". A bio that happens to name
+    # the firm is still a bio, and this one was being quoted as the answer to
+    # which animals a veterinary group treats.
+    r"joined (us|the (practice|team|firm|group|partnership)|"
+    r"the [a-z][a-z-]+ (group|practice|partnership|team|firm))|"
+    r"(has|have) (been )?(worked|practised|practiced|specialised|specialized) "
+    r"(at|in|with)))", re.I)
+
+# Post-nominals. One on a line is usually the business talking ("all our vets
+# are MRCVS registered"); two or more is a named individual's qualifications,
+# which is a biography by another route. "John Kidman BVSc MANZCVS(Small Animal
+# Dentistry) MRCVS" was quoted as the answer to which animals a practice
+# treats, because the credential contained the words "Small Animal".
+QUAL = re.compile(
+    r"\b(mrcvs|bvsc|bvetmed|bvm&s|certavp|manzcvs|bds|gdc|llb|llm|tep|"
+    r"fcilex|cilex|mrics|aca|acca)\b", re.I)
+
+
+def is_credentials(line):
+    """Two or more post-nominals on one line is somebody's qualifications.
+
+    Word boundaries matter more here than anywhere else in this file. Without
+    them "tep" matches inside "stepped" and "aca" inside "vacant", and every
+    other sentence on the site becomes a credential string.
+    """
+    return len(QUAL.findall(line)) >= 2
+
 
 # Text decoded with the wrong codec. Reading it aloud produces noise, and
 # quoting it in a report makes the report look broken.
@@ -114,7 +142,8 @@ def is_own_voice(line):
     The test is not whether a line is positive or relevant; it is whether the
     business is the one saying it.
     """
-    return not (REVIEW.search(line) or BIO.search(line) or MOJIBAKE.search(line))
+    return not (REVIEW.search(line) or BIO.search(line)
+                or MOJIBAKE.search(line) or is_credentials(line))
 
 
 def clean_lines(doc):
