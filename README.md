@@ -112,7 +112,11 @@ send a better one.
   pattern: '\b(new patients? (are )?(welcome|accepted)|not (currently )?(accepting|taking) new patients|waiting list)\b'
 ```
 
-Shipped: `default`, `dental`, `legal`, `veterinary`.
+Shipped: `default`, `dental`, `legal`, `veterinary`, `consultancy`.
+
+Pick the one that matches the trade, because the wrong bank produces a
+confidently wrong result rather than no result. Scoring a remote consultancy
+against the general bank marks it down for not saying where to park.
 
 Each question needs a `pattern`. The one exception is `kind: hours`, which is
 settled by a dedicated extractor instead, because opening hours are structural

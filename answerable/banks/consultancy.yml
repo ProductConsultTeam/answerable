@@ -1,0 +1,91 @@
+name: Consultancy or agency
+description: >
+  What a business owner needs to settle before they will book a call with a
+  software, automation or professional services firm. Almost none of it is the
+  premises questions the general bank asks: nobody visiting a consultancy
+  website wants to know where to park. They want to know what it costs, how
+  long it takes, who owns what at the end, and whether this firm has done the
+  thing before.
+
+questions:
+  - key: what
+    question: What exactly do you do?
+    # "Solutions", "digital transformation" and "we help businesses grow" are
+    # not answers. The question is settled by naming the work.
+    pattern: '\b(we (build|automate|design|develop|write|deliver|replace)|our services|what we (do|build|offer)|services include|we specialise in|we work on)\b'
+
+  - key: pricing
+    question: What does it cost?
+    pattern: '(£\s?\d|\bfrom £|\bour (prices|pricing|fees|rates)\b|\bday rate\b|\bfixed (fee|price)\b|\bper (item|unit|month|user)\b|\bhow we (price|charge)\b|\bpricing (model|page)\b)'
+
+  - key: pricing_model
+    question: How am I charged, fixed price, day rate or retainer?
+    pattern: '\b(fixed (fee|price|cost)|day rate|hourly rate|retainer|monthly (fee|subscription|cost)|per (item|unit|claim|invoice) (fee|price|charge)|charged (per|on|by)|no (hourly|day) rate)\b'
+
+  - key: engagement
+    question: How does an engagement start?
+    pattern: '\b(how (we|it) (work|works)|our process|the (first|next) step|what happens (next|after|on the call)|get started|how to (start|begin|engage)|discovery (call|session|phase)|initial (call|consultation|conversation))\b'
+
+  - key: free_first
+    question: Is the first conversation free?
+    pattern: '\b(free (initial )?(call|consultation|conversation|assessment|audit|review)|no (charge|cost|obligation) (for|to)|first (call|consultation) is free|without (charge|obligation))\b'
+
+  - key: timescale
+    question: How long does it take?
+    pattern: '\b(takes? (about|around|roughly|typically)|typical(ly)? (takes|runs)|within \d+ (days|weeks|months)|\d+ ?(to|-) ?\d+ weeks|a few weeks|lead time|timeline|how long (does|will|do) (it|a|the|projects?|builds?)|delivered in)\b'
+
+  - key: proof
+    question: Have you done this before?
+    pattern: '\b(case (study|studies)|previous (work|clients|projects)|we have (built|delivered|worked with)|portfolio|our work|clients include|worked with (over )?\d+|track record)\b'
+
+  - key: fit
+    question: Do you work with businesses like mine?
+    pattern: '\b(we work with|who we (work with|help|are for)|our clients are|suited to|best fit|typical(ly)? clients?|small and medium|smes?\b|not a (good )?fit|we do not work with)\b'
+
+  - key: scope_out
+    question: What do you not do?
+    pattern: '\b(we (do not|don.t) (do|take on|build|offer)|not (a good fit|suitable|for you)|outside (our|the) scope|what we (do not|don.t) do|we turn down|only take on)\b'
+
+  - key: from_you
+    question: What do you need from my team?
+    pattern: '\b(what we need from you|from (you|your team)|your (team|involvement)|we (will )?need (access|your)|nothing further is needed|time commitment|what is required from)\b'
+
+  - key: ownership
+    question: Who owns the system when it is finished?
+    pattern: '\b(you own|ownership|owns the (code|system|ip|software)|intellectual property|source code (is|belongs|handed)|no lock.?in|handed over|transfer(red)? to you)\b'
+
+  - key: hosting
+    question: Where does it run, and on whose account?
+    pattern: '\b(hosted (on|in|by)|runs? (on|in) your|your (own )?(server|infrastructure|cloud|account|tenant)|on.?premise|aws|azure|google cloud|self.?hosted|our servers)\b'
+
+  - key: data
+    question: What happens to our data?
+    pattern: '\b(your data|data (protection|handling|processing|retention|residency)|gdpr|ico\b|processed (in|within) the uk|we do not (store|keep|retain)|never (leaves|shared))\b'
+
+  - key: support
+    question: What happens after it goes live?
+    pattern: '\b(after (it goes live|launch|handover)|ongoing (support|maintenance|cost)|support (and|&) maintenance|monitoring|sla\b|we keep it running|once (it is )?live)\b'
+
+  - key: guarantee
+    question: What if it does not work?
+    pattern: '\b(guarantee|if (it|we) (does not|doesn.t|fail)|you (do not|don.t) pay|refund|nothing to pay|proven before|shadow mode|before you pay)\b'
+
+  - key: who
+    question: Who would I actually be dealing with?
+    pattern: '\b(meet (the|our) team|our (team|engineers|consultants) (are|include|have)|you (deal|work) directly with|deal directly with|founded by|the engineer who (builds|writes)|no (account managers?|middlemen)|directly with the)\b'
+
+  - key: contact
+    question: How do I get in touch?
+    pattern: '\b(book a (call|demo|slot)|contact form|request a (call|quote|callback)|email (us|me) (at|on)|get in touch|make an enquiry|calendly|schedule a call)\b'
+
+  - key: email
+    question: How do I email you?
+    pattern: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+
+  - key: entity
+    question: Who am I actually contracting with?
+    pattern: '\b(company (number|no\.?) ?\d|registered in england|limited|ltd\b|trading as|vat (number|registration)|companies house)\b'
+
+  - key: availability
+    question: Can you take the work on now?
+    pattern: '\b(current(ly)? (availability|booked|taking on)|next available|capacity|one (build|project) at a time|waiting list|start(ing)? (in|from) [A-Z]|lead time before)\b'
