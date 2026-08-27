@@ -59,8 +59,7 @@ class Evidence(unittest.TestCase):
 
 class Unreadable(unittest.TestCase):
     def test_an_unread_site_scores_nothing_rather_than_zero(self):
-        # 432 of the 1,606 law firm sites this came from, 27%, refused
-        # automated access even after a retry with a browser user agent.
+        # 35 of 972 law firm sites could not be read on a clean run.
         # Reporting them as answering nothing would be a claim about those
         # businesses, when the only fact available is about our access.
         v = score.score(site(reachable=False, why="blocked"), BANK)

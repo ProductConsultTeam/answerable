@@ -87,16 +87,22 @@ print(result["summary"]["missing_keys"])
 
 `ANSWERED`, `MISSING`, and `UNREADABLE`.
 
-The third one is the reason this is not a two-state tool. Crawling 1,606 UK law
-firm websites, 492 did not respond to a default Python client. Retrying with a
-browser user agent, a longer timeout and a www fallback reached a fifth of them
-straight away. The other 432, 27 per cent of the list, still refused: live
-servers behind a WAF, answering 403 to anything that does not look like a
-browser.
+The third one is the reason this is not a two-state tool. Some sites are behind
+a WAF that answers 403 to anything not shaped like a browser, and some simply do
+not respond. Scoring those zero out of twenty would be a statement about those
+businesses when the only fact available is a statement about our access to them.
+When a site cannot be read, `summary["score"]` is `None`, not `0`.
 
-Scoring those zero out of twenty would be a statement about those businesses
-when the only fact available is a statement about our access to them. When a
-site cannot be read, `summary["score"]` is `None`, not `0`.
+How often does it happen? On a clean run over 972 UK law firm sites, 937 were
+read and 35 were not. Under 4 per cent.
+
+That number is worth the space it takes, because an earlier run of the same tool
+over the same kind of list reported 27 per cent, and almost all of it was this
+tool's fault rather than theirs. A default Python user agent, no NAT64 handling
+and a guard that refused a host if any of its DNS records looked unusual will
+between them report that a quarter of the legal profession has no website. Every
+one of those faults failed towards "their site is broken" rather than "our
+crawler is". If this verdict starts looking common, suspect the crawler first.
 
 ## Question banks
 

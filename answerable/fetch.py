@@ -1,12 +1,21 @@
 # -*- coding: utf-8 -*-
 """Getting the pages, which is harder than it sounds.
 
-Naive fetching under-reads real business websites badly. Crawling 1,606 UK law
-firm websites with a default Python user agent reported 492 of them, 31%, as
-dead. They were not: they were behind a WAF answering 403 to anything that did
-not look like a browser, or dropping the connection outright. A retry with a
-browser user agent, a longer timeout and a www fallback reached a fifth of
-those immediately. The remaining 432, 27% of the list, still refused.
+Naive fetching under-reads real business websites badly, and it is worth being
+precise about how badly, because the obvious measurements are also wrong.
+
+Crawling 1,606 UK law firm websites with a default Python user agent reported
+31% of them as dead. A browser user agent, a longer timeout and a www fallback
+recovered a large share immediately, which is why those are here.
+
+The figure that survived that retry, 27%, was still mostly this module's fault
+rather than theirs: see the NAT64 and dual-stack note further down. Once that
+was fixed, a clean run over 972 of the same firms read 937, and only 35 could
+not be reached at all. Under 4%, not 27%.
+
+The lesson is in the direction of the error. Every fault here failed towards
+"their site is broken" rather than "our crawler is", which is the flattering
+direction and therefore the one to distrust.
 
 So this module exists to make "the site did not respond" mean something. When
 it says a site is unreachable, that should be a fact about the site rather than

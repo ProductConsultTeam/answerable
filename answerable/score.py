@@ -15,10 +15,14 @@ an answer. It is never asked to recall anything, and it never sees a question
 that has already been answered, because paying for a second opinion on a
 settled question is how a free tool becomes an expensive one.
 
-The verdicts are three, not two. "Unreadable" is a real outcome: 432 of the
-1,606 law firm sites this came from, 27%, refused automated access even after a
-retry with a browser user agent. Telling those businesses they answer nothing
-would be a claim about them rather than a fact.
+The verdicts are three, not two. "Unreadable" is a real outcome, though a
+smaller one than it first appeared: on a clean run over 972 UK law firm sites,
+35 could not be read at all. That is under 4%, and telling those 35 they answer
+nothing would be a claim about them rather than a fact.
+
+An earlier run put the figure at 27%. Almost all of that was a bug in fetch.py,
+not a refusal by anybody, which is worth remembering whenever this verdict
+starts looking common.
 """
 import re
 
