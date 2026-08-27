@@ -23,6 +23,7 @@ import ipaddress
 import re
 import socket
 import ssl
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -53,26 +54,82 @@ class Blocked(Exception):
     """The URL resolves somewhere we refuse to fetch from."""
 
 
-def _is_public(host):
-    """Resolve and refuse anything that is not a public address.
+class Unresolved(Exception):
+    """The hostname did not resolve. Usually our network, not their site."""
+
+
+def _resolve(host, attempts=3):
+    """Look the host up, with a short backoff. None if it never resolves.
+
+    The retry is not politeness, it is accuracy. Auditing 972 law firms in one
+    run, every lookup from firm 500 onward failed: a local resolver gave up
+    under sustained load. Every one of those firms was then reported as
+    "refusing non-public address", which is a security refusal, and it read as
+    though half the legal profession hosts its website on 192.168.
+    """
+    for i in range(attempts):
+        try:
+            return socket.getaddrinfo(host, None)
+        except socket.gaierror:
+            if i == attempts - 1:
+                return None
+            time.sleep(0.4 * (i + 1))
+
+
+# RFC 6052. An IPv6-only network hands back 64:ff9b::<v4> so a v4-only host can
+# still be reached, and ipaddress marks the whole /96 as reserved. It is an
+# IPv4 address wearing a hat, and it is exactly as public as the address inside
+# it. Auditing 972 law firms, 411 of them resolved to a good public v4 address
+# and one of these, and every one was refused as though it were an internal
+# host.
+NAT64 = ipaddress.ip_network("64:ff9b::/96")
+
+
+def _unwrap(ip):
+    """The address a NAT64 form actually points at, or the address itself."""
+    if ip.version == 6 and ip in NAT64:
+        return ipaddress.ip_address(int(ip) & 0xFFFFFFFF)
+    return ip
+
+
+def _usable(ip):
+    ip = _unwrap(ip)
+    return not (ip.is_private or ip.is_loopback or ip.is_link_local
+                or ip.is_reserved or ip.is_multicast or ip.is_unspecified)
+
+
+def _check_public(host):
+    """Refuse a host that has nowhere public to be fetched from.
 
     Without this the crawler is a confused deputy: a caller supplies
     http://169.254.169.254/ or http://192.168.1.1/ and we fetch internal
     resources on their behalf and hand back the contents.
+
+    The test is whether ANY resolved address is a public one, not whether ALL
+    of them are. Real hosts are dual stack and routinely carry an address that
+    a naive check reads as internal, so refusing on any single bad-looking
+    record refuses most of the internet. A host with no public address at all
+    is the confused-deputy case and is still refused.
+
+    A name that will not resolve is a different fact and gets a different
+    exception, because conflating the two turns a network wobble into a false
+    statement about somebody's business.
     """
-    try:
-        infos = socket.getaddrinfo(host, None)
-    except socket.gaierror:
-        return False
+    infos = _resolve(host)
+    if infos is None:
+        raise Unresolved(host)
+    seen = []
     for info in infos:
         try:
             ip = ipaddress.ip_address(info[4][0])
         except ValueError:
-            return False
-        if (ip.is_private or ip.is_loopback or ip.is_link_local
-                or ip.is_reserved or ip.is_multicast or ip.is_unspecified):
-            return False
-    return True
+            continue
+        seen.append(ip)
+        if _usable(ip):
+            return
+    if not seen:
+        raise Blocked("could not parse any address for %s" % host)
+    raise Blocked("refusing non-public address: %s" % host)
 
 
 def _decode(raw, headers):
@@ -115,8 +172,7 @@ def get(url, timeout=15):
         raise Blocked("only http and https are fetched: %s" % parts.scheme)
     if not parts.hostname:
         raise Blocked("no host in %r" % url)
-    if not _is_public(parts.hostname):
-        raise Blocked("refusing non-public address: %s" % parts.hostname)
+    _check_public(parts.hostname)
 
     req = urllib.request.Request(url, headers=HEADERS)
     try:
@@ -150,7 +206,7 @@ def get_site(domain, paths=("",), timeout=15, max_pages=12):
                       "http://" + domain):
         try:
             home = get(candidate, timeout)
-        except Blocked:
+        except (Blocked, Unresolved):
             raise
         if home:
             base = candidate

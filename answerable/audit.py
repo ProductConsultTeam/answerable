@@ -22,6 +22,13 @@ def crawl(domain, max_pages=12, timeout=15):
     try:
         base, pages = fetch.get_site(domain, PATHS, timeout=timeout,
                                      max_pages=max_pages)
+    except fetch.Unresolved:
+        # Says nothing about the site. Worth retrying before it is reported.
+        return {"domain": domain, "reachable": False,
+                "why": "the domain did not resolve, which is usually the "
+                       "network doing the asking rather than the site",
+                "retryable": True,
+                "pages_read": [], "lines": [], "hours": []}
     except fetch.Blocked as e:
         return {"domain": domain, "reachable": False, "why": str(e),
                 "pages_read": [], "lines": [], "hours": []}
